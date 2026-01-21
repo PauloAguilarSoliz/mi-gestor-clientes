@@ -1,11 +1,10 @@
 import sqlite3
 
 def crear_base_datos():
-    # Conecta (o crea) el archivo. No consume RAM extra.
     conexion = sqlite3.connect("proyectos.db")
     cursor = conexion.cursor()
     
-    # Creamos la tabla si no existe
+    # Tabla Maestra de Clientes
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS clientes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,6 +14,16 @@ def crear_base_datos():
         )
     ''')
     
+    # Tabla Relacionada de Pagos
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS pagos (
+            id_pago INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_cliente INTEGER,
+            monto_pago REAL,
+            fecha TEXT,
+            FOREIGN KEY (id_cliente) REFERENCES clientes (id)
+        )
+    ''')
+    
     conexion.commit()
     conexion.close()
-    print("Base de datos e infraestructura lista.")
