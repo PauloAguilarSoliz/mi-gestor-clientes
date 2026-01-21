@@ -1,16 +1,21 @@
 import sqlite3
 
+
 # --- FUNCIONES DE CLIENTES ---
 def registrar_cliente(nombre, servicio, presupuesto):
     try:
         conexion = sqlite3.connect("proyectos.db")
         cursor = conexion.cursor()
-        cursor.execute("INSERT INTO clientes (nombre, servicio, presupuesto) VALUES (?, ?, ?)",
-                       (nombre, servicio, presupuesto))
+        cursor.execute(
+            "INSERT INTO clientes (nombre, servicio, presupuesto) VALUES (?, ?, ?)",
+            (nombre, servicio, presupuesto),
+        )
         conexion.commit()
         conexion.close()
         return True
-    except: return False
+    except:
+        return False
+
 
 def obtener_clientes():
     try:
@@ -20,7 +25,9 @@ def obtener_clientes():
         filas = cursor.fetchall()
         conexion.close()
         return filas
-    except: return []
+    except:
+        return []
+
 
 def borrar_cliente(id_cliente):
     try:
@@ -30,19 +37,25 @@ def borrar_cliente(id_cliente):
         conexion.commit()
         conexion.close()
         return True
-    except: return False
+    except:
+        return False
+
 
 # --- FUNCIONES DE PAGOS (RELACIONALES) ---
 def registrar_pago(id_cliente, monto, fecha):
     try:
         conexion = sqlite3.connect("proyectos.db")
         cursor = conexion.cursor()
-        cursor.execute("INSERT INTO pagos (id_cliente, monto_pago, fecha) VALUES (?, ?, ?)",
-                       (id_cliente, monto, fecha))
+        cursor.execute(
+            "INSERT INTO pagos (id_cliente, monto_pago, fecha) VALUES (?, ?, ?)",
+            (id_cliente, monto, fecha),
+        )
         conexion.commit()
         conexion.close()
         return True
-    except: return False
+    except:
+        return False
+
 
 def obtener_pagos_detallados():
     try:
@@ -58,7 +71,9 @@ def obtener_pagos_detallados():
         filas = cursor.fetchall()
         conexion.close()
         return filas
-    except: return []
+    except:
+        return []
+
 
 # --- REPORTE ---
 def generar_reporte_txt():
@@ -69,4 +84,5 @@ def generar_reporte_txt():
             for c in clientes:
                 f.write(f"ID: {c[0]} | Cliente: {c[1]} | Presupuesto: ${c[3]}\n")
         return True
-    except: return False
+    except:
+        return False

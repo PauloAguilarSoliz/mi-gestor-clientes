@@ -7,18 +7,27 @@ crear_base_datos()
 
 st.title("🚀 Sistema de Gestión Empresarial")
 
-menu = st.sidebar.selectbox("Menú Principal", 
-    ["Dashboard Clientes", "Registrar Pago", "Reportes y Configuración"])
+menu = st.sidebar.selectbox(
+    "Menú Principal",
+    ["Dashboard Clientes", "Registrar Pago", "Reportes y Configuración"],
+)
 
 if menu == "Dashboard Clientes":
     col1, col2 = st.columns([2, 1])
-    
+
     with col1:
         st.header("👥 Clientes Activos")
         clientes = logic.obtener_clientes()
-        st.dataframe(clientes, column_config={
-            "0": "ID", "1": "Nombre", "2": "Servicio", "3": "Presupuesto"
-        }, use_container_width=True)
+        st.dataframe(
+            clientes,
+            column_config={
+                "0": "ID",
+                "1": "Nombre",
+                "2": "Servicio",
+                "3": "Presupuesto",
+            },
+            use_container_width=True,
+        )
 
     with col2:
         st.header("➕ Nuevo Cliente")
@@ -33,7 +42,7 @@ if menu == "Dashboard Clientes":
 elif menu == "Registrar Pago":
     st.header("💰 Gestión de Pagos Relacionados")
     c1, c2 = st.columns(2)
-    
+
     with c1:
         with st.form("pago"):
             id_c = st.number_input("ID del Cliente", step=1)
@@ -52,7 +61,7 @@ elif menu == "Reportes y Configuración":
     if st.button("Generar Reporte Maestro .txt"):
         logic.generar_reporte_txt()
         st.success("Archivo generado en el servidor.")
-    
+
     st.divider()
     id_del = st.number_input("ID para eliminar cliente", step=1)
     if st.button("Eliminar permanentemente"):
