@@ -86,3 +86,20 @@ def generar_reporte_txt():
         return True
     except:
         return False
+
+
+def obtener_pagos_detallados():
+    try:
+        conexion = sqlite3.connect("proyectos.db")
+        cursor = conexion.cursor()
+        query = """
+            SELECT clientes.nombre, pagos.monto_pago, pagos.fecha
+            FROM pagos
+            INNER JOIN clientes ON pagos.id_cliente = clientes.id
+        """
+        cursor.execute(query)
+        filas = cursor.fetchall()
+        conexion.close()
+        return filas
+    except:
+        return []
